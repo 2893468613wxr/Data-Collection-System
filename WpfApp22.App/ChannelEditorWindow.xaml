@@ -1,0 +1,179 @@
+<Window x:Class="WpfApp22.App.ChannelEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfApp22.App"
+        Title="通道配置" Height="720" Width="1420"
+        WindowStartupLocation="CenterOwner" ResizeMode="CanResize"
+        Style="{StaticResource Window.Base}">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 基本参数 -->
+        <GroupBox Grid.Row="0" Header="通道参数" Padding="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <WrapPanel Grid.Row="0" Margin="0,0,0,6">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,14,6">
+                        <TextBlock Text="名称" Width="42" Style="{StaticResource Text.Muted}" />
+                        <TextBox Text="{Binding Config.Name}" Width="150" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,14,6">
+                        <TextBlock Text="传输" Width="42" Style="{StaticResource Text.Muted}" />
+                        <ComboBox ItemsSource="{Binding TransportKinds}" SelectedItem="{Binding Config.Transport}"
+                                  Width="110" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,14,6">
+                        <TextBlock Text="协议" Width="42" Style="{StaticResource Text.Muted}" />
+                        <ComboBox ItemsSource="{Binding ProtocolKinds}" SelectedItem="{Binding Config.Protocol}"
+                                  Width="120" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,14,6">
+                        <TextBlock Text="从站号" Width="52" Style="{StaticResource Text.Muted}" />
+                        <TextBox Text="{Binding Config.SlaveId}" Width="56" />
+                    </StackPanel>
+                    <CheckBox Content="启用该通道" IsChecked="{Binding Config.Enabled}" Margin="0,0,14,6" />
+                    <CheckBox Content="断线自动重连" IsChecked="{Binding Config.AutoReconnect}" Margin="0,0,14,6" />
+                </WrapPanel>
+
+                <WrapPanel Grid.Row="1">
+                    <GroupBox Header="串口参数" Margin="0,0,10,0" Padding="6">
+                        <WrapPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                <TextBlock Text="端口" Width="36" Style="{StaticResource Text.Muted}" />
+                                <TextBox Text="{Binding Config.PortName}" Width="80" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                <TextBlock Text="波特率" Width="42" Style="{StaticResource Text.Muted}" />
+                                <TextBox Text="{Binding Config.BaudRate}" Width="70" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                <TextBlock Text="数据位" Width="42" Style="{StaticResource Text.Muted}" />
+                                <TextBox Text="{Binding Config.DataBits}" Width="40" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                <TextBlock Text="校验" Width="36" Style="{StaticResource Text.Muted}" />
+                                <ComboBox ItemsSource="{Binding SerialParities}" SelectedItem="{Binding Config.Parity}"
+                                          Width="76" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="停止位" Width="42" Style="{StaticResource Text.Muted}" />
+                                <ComboBox ItemsSource="{Binding SerialStopBitsValues}"
+                                          SelectedItem="{Binding Config.StopBits}" Width="76" />
+                            </StackPanel>
+                        </WrapPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="TCP 参数" Margin="0,0,10,0" Padding="6">
+                        <WrapPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                <TextBlock Text="主机" Width="36" Style="{StaticResource Text.Muted}" />
+                                <TextBox Text="{Binding Config.Host}" Width="140" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="端口" Width="36" Style="{StaticResource Text.Muted}" />
+                                <TextBox Text="{Binding Config.Port}" Width="70" />
+                            </StackPanel>
+                        </WrapPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="采集参数" Padding="6">
+                        <WrapPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                <TextBlock Text="轮询 ms" Width="56" Style="{StaticResource Text.Muted}" />
+                                <TextBox Text="{Binding Config.PollIntervalMs}" Width="60" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                <TextBlock Text="超时 ms" Width="56" Style="{StaticResource Text.Muted}" />
+                                <TextBox Text="{Binding Config.TimeoutMs}" Width="60" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                <TextBlock Text="重试" Width="36" Style="{StaticResource Text.Muted}" />
+                                <TextBox Text="{Binding Config.RetryCount}" Width="46" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="缓冲点数" Width="60" Style="{StaticResource Text.Muted}" />
+                                <TextBox Text="{Binding Config.BufferCapacity}" Width="80" />
+                            </StackPanel>
+                        </WrapPanel>
+                    </GroupBox>
+                </WrapPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- 点位 -->
+        <Grid Grid.Row="1" Margin="0,6,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="点位配置" Style="{StaticResource Text.Title}" Margin="0,0,18,0" />
+            <TextBlock Grid.Column="1" Text="功能码" Style="{StaticResource Text.Muted}" VerticalAlignment="Center" />
+            <ComboBox Grid.Column="2" ItemsSource="{x:Static local:EnumValues.RegisterKindOptions}"
+                      DisplayMemberPath="Text" SelectedValuePath="Value"
+                      SelectedValue="{Binding DefaultRegisterKind}" Width="200" Margin="6,0,0,0" />
+            <Button Grid.Column="3" Content="应用到全部点位" HorizontalAlignment="Left"
+                    Command="{Binding ApplyKindToAllCommand}" Margin="8,0,0,0" />
+            <Button Grid.Column="4" Content="新增点位" Command="{Binding AddPointCommand}" />
+            <Button Grid.Column="5" Content="删除选中点位" Command="{Binding RemovePointCommand}" Margin="0" />
+        </Grid>
+
+        <DataGrid x:Name="PointGrid" Grid.Row="2" ItemsSource="{Binding Points}" SelectedItem="{Binding SelectedPoint}"
+                  IsReadOnly="False" CanUserAddRows="False" RowHeight="30">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="点位名称" Binding="{Binding Name}" Width="96" />
+                <DataGridTextColumn Header="单位" Binding="{Binding Unit}" Width="44" />
+                <DataGridComboBoxColumn Header="功能码（读取方式）" Width="182"
+                                        ItemsSource="{x:Static local:EnumValues.RegisterKindOptions}"
+                                        DisplayMemberPath="Text" SelectedValuePath="Value"
+                                        SelectedValueBinding="{Binding RegisterKind}" />
+                <DataGridTextColumn Header="地址" Binding="{Binding RegisterAddress}" Width="52" />
+                <DataGridComboBoxColumn Header="数据类型" Width="80"
+                                        ItemsSource="{x:Static local:EnumValues.DataTypes}"
+                                        SelectedItemBinding="{Binding DataType}" />
+                <DataGridComboBoxColumn Header="字序" Width="76"
+                                        ItemsSource="{x:Static local:EnumValues.WordOrders}"
+                                        SelectedItemBinding="{Binding WordOrder}" />
+                <DataGridTextColumn Header="系数" Binding="{Binding Scale}" Width="46" />
+                <DataGridTextColumn Header="偏移" Binding="{Binding Offset}" Width="52" />
+                <DataGridTextColumn Header="小数位" Binding="{Binding DecimalPlaces}" Width="52" />
+                <DataGridTextColumn Header="曲线颜色" Binding="{Binding Color}" Width="82" />
+                <DataGridCheckBoxColumn Header="报警" Binding="{Binding Alarm.Enabled}" Width="46" />
+                <DataGridComboBoxColumn Header="判定" Width="94"
+                                        ItemsSource="{x:Static local:EnumValues.AlarmOperators}"
+                                        SelectedItemBinding="{Binding Alarm.Operator}" />
+                <DataGridTextColumn Header="阈值" Binding="{Binding Alarm.Threshold}" Width="54" />
+                <DataGridTextColumn Header="下限" Binding="{Binding Alarm.LowLimit}" Width="54" />
+                <DataGridTextColumn Header="上限" Binding="{Binding Alarm.HighLimit}" Width="54" />
+                <DataGridTextColumn Header="滞回" Binding="{Binding Alarm.Hysteresis}" Width="50" />
+                <DataGridTextColumn Header="去抖次数" Binding="{Binding Alarm.DebounceCount}" Width="66" />
+                <DataGridTextColumn Header="延时ms" Binding="{Binding Alarm.DelayMs}" Width="58" />
+                <DataGridComboBoxColumn Header="级别" Width="70"
+                                        ItemsSource="{x:Static local:EnumValues.AlarmSeverities}"
+                                        SelectedItemBinding="{Binding Alarm.Severity}" />
+                <!-- 报警描述用 * 吸收剩余宽度：否则 20 列固定宽度加起来会超出窗口，白底上多出一条横向滚动条 -->
+                <DataGridTextColumn Header="报警描述" Binding="{Binding Alarm.Message}" Width="*" MinWidth="104" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <TextBlock VerticalAlignment="Center" Margin="0,0,16,0" Style="{StaticResource Text.Muted}">
+                提示：对接 Modbus Slave 时传输选 TCP、协议选 ModbusTcp，端口填 502；
+                每个点位的「功能码」必须与从站 Slave Definition 里的 01/02/03/04 一致
+            </TextBlock>
+            <Button Content="确定" Style="{StaticResource Button.Primary}" Width="90" Click="OnOkClick" />
+            <Button Content="取消" Width="90" Margin="8,0,0,0" Click="OnCancelClick" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!--
+      平台版本必须显式写成 10.0.19041，不能只写 net10.0-windows。
+      只写 net10.0-windows 时平台版本默认是 7.0，而 SkiaSharp.Views.WPF（ScottPlot.WPF 的依赖）
+      只提供 net8.0-windows10.0.19041 资源；7.0 < 10.0.19041 不满足兼容规则，
+      NuGet 会退回 net462 程序集并报 NU1701 —— 那是靠 .NET 兼容层跑起来的，属于侥幸。
+    -->
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>WpfApp22.App</RootNamespace>
+    <AssemblyName>WpfApp22.App</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WpfApp22.Core\WpfApp22.Core.csproj" />
+    <ProjectReference Include="..\WpfApp22.Infrastructure\WpfApp22.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageReference Include="ScottPlot.WPF" Version="5.1.59" />
+  </ItemGroup>
+
+</Project>

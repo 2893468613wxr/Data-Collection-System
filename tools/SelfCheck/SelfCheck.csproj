@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>WpfApp22.SelfCheck</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WpfApp22.Core\WpfApp22.Core.csproj" />
+    <ProjectReference Include="..\..\WpfApp22.Infrastructure\WpfApp22.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
